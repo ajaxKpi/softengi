@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-vertical-tabs/bootstrap.vertical-tabs.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class="greating">
+    <h1>Hello, friend!</h1>
+    <h3>Enter your name to start the test:</h3>
+    <input type="text" id ='user_name' required>
+    <button class="enter">Start test</button>
+</div>
+
+<div class="test">
+    <div class="col-xs-3"> <!-- required for floating -->
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs tabs-left"><!-- 'tabs-right' for right tabs -->
+            <li class="active"><a href="#set" data-toggle="tab">Установка</a></li>
+            <li><a href="#check" data-toggle="tab">Проверка</a></li>
+
+        </ul>
+    </div>
+    <div class="col-xs-9">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="set">
+
+
+            <h2>Please select math operators to check knowlage:</h2>
+                <form id="preset">
+                    <input type="checkbox" id="Addition" value="+">+ Addition<br>
+                    <input type="checkbox" id="Subtraction" value="-">- Subtraction<br>
+                    <input type="checkbox" id="Multiplication" value="*">* Multiplication <br>
+                    <input type="checkbox" id="Division" value="/">&divide;  Division<br>
+                    <input type="submit"  id="setOperators"  value="Set">
+                </form>
+
+            </div>
+
+            <div class="tab-pane" id="check">
+                <h2>Answer the question:</h2>
+                    <div class="question">
+                            <div class="example"><span>4 / 2</span>=<input type="text" class="I_answer"></div>
+
+                        <button class="B_answer">answer</button>
+                    <div class="A_status"></div>
+
+                    </div>
+                    <aside class="result">
+                            <h3>Quantity of rigth answers:<span class="rightAns">0</span></h3>
+
+                        <h3>Quantity of wrong answers:<span class="wrongAns">0</span></h3>
+                    </aside>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+</body>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+</html>
