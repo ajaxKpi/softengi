@@ -64,17 +64,11 @@ test_results.generate_question=function(){
 };
 test_results.new_start= function(){};
 
+
+
 /*
-
-if (answStatus){
-    test_results.qrightAns++;
-}
-else{
-    test_results.qwrongAns ++;
-}
-*/
-
-
+   helpful functions block
+ */
 
 function PrimeNumb(numb){
     for (var i=2;i<numb;i++)
@@ -146,12 +140,13 @@ $('.B_answer').click(function () {
                 test_results.qrightAns++;
 
                 $('.rightAns').text(test_results.qrightAns);
-                test_results.write_answer($('.example span').text(),1);
+
             }
             else {
                 test_results.qwrongAns ++;
                 $('.wrongAns').text(test_results.qwrongAns);
-                test_results.write_answer($('.example span').text(),0);
+                //write wrong answer
+                test_results.write_answer($('.example span').text(),$('.I_answer').val());
             }
             setTimeout(function(){
                 generateExample();

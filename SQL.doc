@@ -1,0 +1,71 @@
+﻿Структура рішення має вигляд JSON:
+
+
+
+Создания нужных таблиц [tbl_name, tbl_tests, tbl_wrong]:
+---------------------------------------------------------------------
+CREATE TABLE `tbl_name` (
+`id` INT NOT NULL ,
+`name` VARCHAR( 255 ) NOT NULL ,
+PRIMARY KEY ( `id` ) 
+)
+
+CREATE TABLE `tbl_tests` (
+`id` INT NOT NULL ,
+`date` DATE NOT NULL ,
+`examples` VARCHAR( 255 ) NOT NULL ,
+`qright`   INT ,`qwrong` INT ,) 
+
+
+CREATE TABLE `tbl_wrong` (
+`id` INT( 10 ) NOT NULL ,
+`example` VARCHAR( 255 ) NOT NULL ,
+`answer` VARCHAR( 255 ) NOT NULL 
+)
+
+ Сохранения результата тестирования:
+---------------------------------------------------------------------
+//Дізнаємося ID користувача, що проходив тест
+SELECT  id from  tbl_name WHERE  name =  testresults.name
+// якщо його не існує дістаємо максимальне значення id і інсрементуємо і записуємо в базу
+SELECT (max(id)+1) as id FROM tbl_name
+INSERT INTO 'tbl_name` (`id` ,`name` )VALUES ( id, testresults.name);
+
+//далі використовуємо значення id
+
+INSERT INTO `tbl_tests` (`id` ,`date` ,`examples` ,`qright` ,`qwrong`)
+VALUES (id, 'testresults.date ', 'testresults.operators.join(','), testresults.qrigthAns, testresults.qwrongAns);
+
+
+for (el in testresults.question){
+	INSERT INTO `tbl_wrong` (`id` ,`example` ,`answer` )
+	VALUES (id, el,  testresults.question[el]);
+}
+
+
+
+Показать учеников, ни разу за период не проходивших тестирование:
+---------------------------------------------------------------------
+-припустимо в таблицю  tbl_name було залито імена всіх учнів, а не тільки тих хто проходив тестування через веб форму, тоді:
+SELECT name FROM  tbl_name n
+LEFT JOIN  tbl_tests t  ON n.id =t.id 
+WHERE t.id IS NULL
+ORDER BY t.date DESC, n.name ASC
+Показать учеников, прошедших тестирование за указанный период (имя, дата, типы решённых примеров, кол-во правильно и неправильно решённых примеров, результат = % правильных ответов)
+---------------------------------------------------------------------
+- припустимо, що період буде передаваться змінними $from i $to
+
+SELECT n.name, t. date, t. examples, t. qright, t. qwrong,  t. qright/( t. qright+t.qwrong)*100 as percent 
+FROM tbl_name n LEFT OUTER JOIN tbl_tests t  ON n.id =t.id
+WHERE t.date BETWEEN CAST($from as DATE) and CAST($to as DATE)
+ORDER BY t.date DESC, n.name ASC
+
+Ученики, проходившие тестирование не менее трёх раз за указанный период, результат которых не превысил 50%
+---------------------------------------------------------------------
+- припустимо, що період буде передаваться змінними $from i $to
+SELECT n.name FROM tbl_name n 
+WHERE n.id IN (SELECT t.id FROM tbl_tests t 
+WHERE  t. qright/( t. qright+t.qwrong)*100<50 AND t.date BETWEEN CAST($from as DATE) and CAST($to as DATE)
+GROUP BY t.id
+HAVING COUNT(*) > 2 )
+ORDER BY n.name ASC
