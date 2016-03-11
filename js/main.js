@@ -11,8 +11,8 @@ test_results.qrightAns =0;
 test_results.qwrongAns =0;
 test_results.question={};
 
-test_results.write_answer=function(quest){
-        this.question.quest=quest;
+test_results.write_answer=function(quest,result){
+        this.question[quest]=result;
         //this.question.answ.eval()
 
 };
@@ -58,7 +58,7 @@ test_results.generate_question=function(){
             while(!(firstArg%secondArg==0&&firstArg!=secondArg));
     }
    var question_str =firstArg+operator+secondArg;
-   this.write_answer(question_str);
+
 
     return question_str;
 };
@@ -144,11 +144,14 @@ $('.B_answer').click(function () {
 
             if (eval( $('.example span').text())== $('.I_answer').val()){
                 test_results.qrightAns++;
+
                 $('.rightAns').text(test_results.qrightAns);
+                test_results.write_answer($('.example span').text(),1);
             }
             else {
                 test_results.qwrongAns ++;
                 $('.wrongAns').text(test_results.qwrongAns);
+                test_results.write_answer($('.example span').text(),0);
             }
             setTimeout(function(){
                 generateExample();
